@@ -8,11 +8,28 @@
 \usepackage{amssymb}
 \usepackage{graphics,color}
 \usepackage{graphicx}
-  %avoir figure 1 et non figure1.1 et table 1 au lieu de table 1.1.1
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%avoir figure 1 et non figure1.1 et table 1 au lieu de table 1.1.1
 \usepackage{caption}
 \captionsetup{figurewithin=none}  
 \captionsetup{tablewithin=none}
+% pour régler le header et footer
+\fancyhead{}
+\fancyfoot{}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{#1}}
 
+\lhead{\chaptername~\thechapter. \leftmark\\\textit{\rightmark}}
+
+\chead{}
+\rhead{
+\includegraphics[height=1cm]{images/ecm.ps}
+\includegraphics[height=1cm]{images/lif.ps}
+} 
+\lfoot{Ismaeil Abouljamal}
+\cfoot{Rapport TFE 2011}
+\rfoot{\thepage}
 %helpers
 \newcommand{\meet}{\wedge}
 \newcommand{\join}{\vee}
@@ -39,7 +56,7 @@ Tables 0/1 Associées Aux Treillis Démontables
 }
 
 
-% Pre'nom et nom dde l'auteur
+% Pre'nom et nom de l'auteur
 \def\NomsAuteurs{
 Ismaeil Abouljamal
 }
@@ -102,7 +119,7 @@ les unes des autres\fg
 \end{verse}
 Cette phrase montre l'enjeu de la classification~: rassembler les objets dans des classes bien séparées qui, une fois caractérisées, permettent 
 une interprétation de données. Classiquement, les modèles utilisés pour relever ce défi sont les partitions et les hiérarchies de classes. Dans ces deux cas, les classes
- d'Objets -homogènes- sont automatiquement séparées car elles sont disjointes pour les partitions ; et/ou embo\^itées dans le cas des hiérarchies.
+ d'Objets -homogènes- sont automatiquement séparées car elles sont disjointes pour les partitions ; et/ou emboîtées dans le cas des hiérarchies.
 
 Cependant, dans bien des cas pratiques, cette séparation stricte est préjudi\-cielle~: il arrive que l'on ait besoin qu'un objet appartienne à deux classes distinctes, sans qu'il soit
  seul dans sa classe, par exemple l'hybridation d'espèce. Une interprétation correcte doit absolument prendre en compte la relation existante entre l'hybride 
@@ -473,20 +490,20 @@ S'il est clair, grâce à la propriété locale, que le treillis de départ de l
 petit à petit dans les figures~\ref{Fig:schema_elimination1_2} et~\ref{Fig:schema_elimination2_2} ; c'est grâce à la propriété globale qu'on peut visuellement affirmer que le 
 treillis de la figure~\ref{Fig:treillis.moins} n'est pas démontable. En effet, on peut remarquer l'existence d'une couronne sur ce treillis.
 On peut montrer (\cite{crow_free}) que dans un treillis démontable, il existe toujours au moins un élément 
-doublement irréductible dont le filtre est une cha\^ine.
+doublement irréductible dont le filtre est une chaîne.
 
-\begin{definition}[cha\^ine]
+\begin{definition}[chaîne]
 
 \label{chaine}
 
 Soit $\mathcal{R}$ une relation d'ordre sur un ensemble $E = \{e_1, e_2, \hdots ,e_n\}$.
-On dit que les éléments de $E$ forment une \textsc{cha\^ine} pour la relation $\mathcal{R}$ si et seulement s'il existe une permutation $\sigma$ sur $[1..n]$
+On dit que les éléments de $E$ forment une \textsc{chaîne} pour la relation $\mathcal{R}$ si et seulement s'il existe une permutation $\sigma$ sur $[1..n]$
  telle que~:
 
 $e_{\sigma(1)}~\mathcal{R}~e_{\sigma(2)}~\mathcal{R}~\hdots~\mathcal{R}~e_{\sigma(n-1)}~\mathcal{R}~e_{\sigma(n)}$.
 \end{definition}
 
-Dans la suite, on considère $\mathcal{R}$ comme l'opération inclusion $\subseteq$ sur les ensembles. On parlera alors de cha\^ine sur un ensemble sans 
+Dans la suite, on considère $\mathcal{R}$ comme l'opération inclusion $\subseteq$ sur les ensembles. On parlera alors de chaîne sur un ensemble sans 
 préciser la relation d'ordre.
 
 \begin{definition}[Filtre]
@@ -536,10 +553,10 @@ $(\mathcal{H} \backslash \{i\})$ est un système de classes.
 
 \label{feuillesys}
 
-un élément $i \in X$ est une feuille sur un système de classes $F$ si son filtre  $\uparrow i$ forme une cha\^ine.
+un élément $i \in X$ est une feuille sur un système de classes $F$ si son filtre  $\uparrow i$ forme une chaîne.
 \end{definition}
 
-Dans le système de classes de départ de la figure~\ref{sc_schema_elimination}, $a$ est une feuille car $\uparrow a$ est une cha\^ine
+Dans le système de classes de départ de la figure~\ref{sc_schema_elimination}, $a$ est une feuille car $\uparrow a$ est une chaîne
  puisque $\{a\} \subseteq \{a, b\} \subseteq \{a, b, c\} \subseteq \{a, b, c, d, e\}$.
 Tandis que $b$ n'est pas une feuille car $\{a, b\}  \not\subseteq \{b, c\}$ et $\{c, b\}  \not\subseteq \{a, b\}$.
 
@@ -922,7 +939,7 @@ $x_i$ est une feuille sur la table 0/1 $T$ (Cf définition~\ref{feuilletable}).
 
 
 \paragraph{$(\Rightarrow)$}
-Supposons $i$ une feuille sur $F$, alors $\uparrow i$ forme une cha\^ine. 
+Supposons $i$ une feuille sur $F$, alors $\uparrow i$ forme une chaîne. 
 Donc, $\exists p > 0$ tel que $\uparrow i = \{S_1, S_2,..., S_p\}$ avec
 \begin{equation}
 \label{inclusion}
@@ -949,7 +966,7 @@ pour tout $S \in F$ avec $i \in S$, il existe $L \subseteq \{1...l\}$ tel que~:
  $S = \bigcap_{k \in L} Ind(j_k) = C_{min_{\subseteq}(L)}$ 
 (grâce à la relation~\ref{inclusion2}). 
 Les classes sont donc incluses les unes dans les autres en gardant l'ordre de la relation~\ref{inclusion2}.
-D'où les éléments de $\uparrow i$ forment une cha\^ine et $i$ est une feuille sur $F$.
+D'où les éléments de $\uparrow i$ forment une chaîne et $i$ est une feuille sur $F$.
 
 $\Box$
 \end{preuve}
