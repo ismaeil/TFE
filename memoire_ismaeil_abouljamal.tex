@@ -10,7 +10,14 @@
 \usepackage{graphicx}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
+%bien inclure du code source
+\usepackage{moreverb}
+\usepackage{listings} % a inclure pour la fonction listing
+\usepackage{textcomp} 
+\usepackage{xcolor} % on en a besoin pour utiliser les couleurs
 %avoir figure 1 et non figure1.1 et table 1 au lieu de table 1.1.1
+\usepackage{url}
+\newcommand{\lien}[1]{$\,$\footnote{$\,$\url{#1}}}
 \usepackage{caption}
 \captionsetup{figurewithin=none}  
 \captionsetup{tablewithin=none}
@@ -1350,7 +1357,7 @@ Donc d'après le lemme~\ref{lemmedetravail}, la table $T''$ est bien ordonnée d
 $\Box$
 \end{preuve}
 
-
+Cet algorithme est implémenté à l'aide du langage Python dans la section des Annexes.
 \section{Démontable $\Leftrightarrow$ Ordonnable}
 
 
@@ -1420,6 +1427,100 @@ si cette légère perturbation du système nous permettrait de trouver de nouvel
  nombre minimal des 1 à ajouter ? Quelle est la complexité de ce problème ? Et dans le cas (fort probable) où il serait NP-difficile, existe t-il des heuristiques efficaces pour le résoudre ?  
 
 
+\chapter{Implémentation}
+
+
+\section{Implémentation de l'algorithme de la proposition \ref{tabletreillis2}}
+\label{algov0}
+
+Rappelons que cet algorithme suppose la connaissance d'un ordre de démontabilité du treillis associé à la table 0/1 concernée.
+Un algorithme plus intéressant est donné en Annexe 2 qui pour une table ordonnable, effectue un ordonnancement tel que l'ordre final des lignes
+ de la table constitue un ordre de démontabilité des feuilles du treillis associé à la table concernée.
+
+Le code source de cet algorithme est également disponible sur Github en suivant le lien : 
+\lien{https://github.com/ismaeil/ALGO/blob/49b6ca1e396666fd77d38bd154a17706802c9f78/table.py}
+
+\lstset{
+upquote=true,
+columns=flexible,
+basicstyle=\ttfamily,
+language=Python,
+keywordstyle=\color{blue},
+commentstyle=\color{gray},
+breaklines,
+breakindent=1.5em,
+xleftmargin=2em,
+xrightmargin=2em,
+frame=single,
+rulecolor=\color{orange},
+backgroundcolor=\color{orange!5},
+numbers=left,
+tabsize=2,
+breaklines=true,
+numberstyle=\tiny\ttfamily,
+framexleftmargin=13mm,
+}
+   
+\begin{lstlisting}
+#! /usr/bin/python
+# -*- coding: utf-8 -*-
+
+class Table(object):
+  
+  """ Une Table 0/1 sera considérée comme une liste de listes (colonnes).
+  Exemple :
+  1 1 1 0 0
+  1 0 0 0 1
+  0 0 1 1 0
+  est :
+  [[1, 1, 0], [1, 0, 0], [1, 0, 1], [0, 0, 1], [0, 1, 0]]
+  """
+  
+  def __init__(self, liste):
+    self.donnee = liste
+  
+  def nouvelOrdre(self, liste):
+    result = []
+    for i in range(len(self.donnee)):
+      result.append(self.donnee[liste[i]])
+    return result
+  
+  def reorderTab(self):
+    nombre_colonnes = len(self.donnee)
+    nombre_lignes = len(self.donnee[0])
+    LL = [set(range(1, nombre_colonnes + 1))]
+    liste_aux = range(1, nombre_lignes + 1)
+    liste_aux.reverse()
+    for i in liste_aux:
+      L = []
+      for A in LL:
+        E0 = set()
+        E1 = set()
+        for j in list(A):
+          if self.donnee[j - 1][i - 1] == 0:
+            E0 = E0 | set([j])
+          else:
+            E1 = E1 | set([j])
+        L.append(E0)
+        L.append(E1)
+      LL = L
+    liste_ordre = goodListe(L)
+    resultat = self.nouvelOrdre(liste_ordre)
+    return resultat
+
+
+def goodListe(liste):
+  sortie0, sortie = [], []
+  for u in liste:
+    sortie0.extend(u)
+  for l in sortie0:
+    sortie.append(l -1)
+  return sortie
+
+
+\end{lstlisting}
+
+\section{Annexe 2}
 \bibliographystyle{plain}
 
 \begin{thebibliography}{9}
@@ -1479,18 +1580,6 @@ RIVAL~I.
 \addcontentsline{toc}{chapter}{Table de figures}
 \listoftables
 \addcontentsline{toc}{chapter}{Liste de tableaux}
-
-
-\chapter*{Annexes}
-\addcontentsline{toc}{chapter}{Annexes}
-% ...
-
-\section*{Annexe 1}
-\addcontentsline{toc}{section}{Annexe1}
-%...
-
-\section*{Annexe 2}
-\addcontentsline{toc}{section}{Annexe2}
 
 \end{document}
 
