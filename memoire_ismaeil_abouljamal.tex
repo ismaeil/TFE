@@ -1357,7 +1357,7 @@ Donc d'après le lemme~\ref{lemmedetravail}, la table $T''$ est bien ordonnée d
 $\Box$
 \end{preuve}
 
-Cet algorithme est implémenté à l'aide du langage Python dans la section des Annexes.
+Cet algorithme est implémenté à l'aide du langage Python dans la section Annexes.
 \section{Démontable $\Leftrightarrow$ Ordonnable}
 
 
@@ -1372,7 +1372,7 @@ $\mathcal{H}$ est démontable $\Leftrightarrow$ $T$ est ordonnable .
 
 \end{theorem}
 
-De part la correspondance de Galois, si on s'était intéressé aux attributs, on aurait alors utilisé $h'$ au lieu de $h$ pour trouver les fermés. Le système de classe considéré serait issu du treillis de Galois restreint aux attributs en 
+De part la correspondance de Galois, si on s'était intéressé aux attributs, on aurait alors utilisé $h'$ au lieu de $h$ pour trouver les fermés. Le système de classes considéré aurait été issu du treillis de Galois restreint aux attributs en 
 y ajoutant les singletons et en enlevant l'ensemble vide. En un mot, plutôt que travailler sur la table $T$, on aurait fait les mêmes opérations sur la transposée de $T$.
 Or la configuration $\Gamma$ est stable par transposition. Si une table $T$ (table~\ref{nontrans}) est bien ordonnée, $\mathstrut^t T$ (table~\ref{trans}) l'est également. 
 Le résultat de l'algorithme (section~\ref{sens1}) nous donne donc directement un ordre d'élimination sur le système de classes associé aux attributs.
@@ -1405,35 +1405,24 @@ $a_m$ & \textbf{*} & \textbf{*} & $\hdots$ & \textbf{*} & \textbf{*}
 \caption{Table ${}^t T$ Les lignes correspondent aux attributs de la table $T$}
 \label{trans}
 \end{table}
+
+\section{Algorithme de réordonnancement}
  
-\chapter{Conclusion et perspectives}
+La proposition \ref{tabletreillis2} donne déjà un algorithme d'ordonnancement d'une table 0/1 ordonnable en supposant la connaissance de l'ordre de démontabilité
+ des feuilles du treilllis associé à cette table. Dans cette section on présente un algorithme plus générique, qui pour une table ordonnable réussit son ordonnacement et 
+le nouvel ordre sur les lignes de la table constitue un ordre de démontabilité.
 
-\label{sccl}
+la complexité de cet algorithme est
 
-Nous avons caractérisé de manière locale les tables 0/1 dont le treillis associé est démontable grâce à la configuration $\Gamma$.
-Cette caractérisation locale induit une propriété globale~: la non existence de couronnes dans le treillis associé.
-La correspondance entre treillis démontables et systèmes de classes démontables et les résultats connus entre ces deux structures sont 
-étendus à la structure de table correspondante.
+Cet algorithme est implémenté en python dans le chapitre \ref{implement} section \ref{ordo}
 
-Il nous reste à implémenter l'algorithme de la proposition~\ref{tabletreillis2} et la représenta\-tion graphique adaptée.
-
-La problématique de reconnaissance d'ordonnabilité sur les tables démonta\-bles reste un champ à explorer. Même si on sait que les treillis démonta\-bles sont en bijection avec les graphes 
-fortement cordés (\cite{crow_free}) -- et donc qu'il suffit de vérifier que le graphe associé à la table 0/1 est fortement cordé pour savoir si le treillis associé 
-est démontable, d'où la table est ordonnable -- on se demande s'il n'y aurait pas une méthode de reconnaissance de démontabilité directement sur les tables, 
-sans passer par le treillis associé ?
-
-Enfin, on a vu (section~\ref{sens1}) par un exemple comment le simple remplacement d'un 0 par un 1 peut influencer l'ordonnabilité d'une table 0/1. On se demande alors 
-si cette légère perturbation du système nous permettrait de trouver de nouvelles interprétations et rapprochements/séparations entre les individus. Plus fondamentalement, quel est le
- nombre minimal des 1 à ajouter ? Quelle est la complexité de ce problème ? Et dans le cas (fort probable) où il serait NP-difficile, existe t-il des heuristiques efficaces pour le résoudre ?  
-
-
-\chapter{Implémentation}
-
+\chapter{Implémentations}
+\label{implement}
 
 \section{Implémentation de l'algorithme de la proposition \ref{tabletreillis2}}
 \label{algov0}
 
-Rappelons que cet algorithme suppose la connaissance d'un ordre de démontabilité du treillis associé à la table 0/1 concernée.
+Rappelons que cet algorithme suppose la connaissance d'un ordre de démont\-abilité du treillis associé à la table 0/1 concernée.
 Un algorithme plus intéressant est donné en Annexe 2 qui pour une table ordonnable, effectue un ordonnancement tel que l'ordre final des lignes
  de la table constitue un ordre de démontabilité des feuilles du treillis associé à la table concernée.
 
@@ -1448,17 +1437,17 @@ language=Python,
 keywordstyle=\color{blue},
 commentstyle=\color{gray},
 breaklines,
-breakindent=1.5em,
-xleftmargin=2em,
-xrightmargin=2em,
+breakindent=4mm,
+xleftmargin=0mm,
+xrightmargin=0mm,
 frame=single,
 rulecolor=\color{orange},
 backgroundcolor=\color{orange!5},
 numbers=left,
-tabsize=2,
+tabsize=1,
 breaklines=true,
 numberstyle=\tiny\ttfamily,
-framexleftmargin=13mm,
+framexleftmargin=0mm,
 }
    
 \begin{lstlisting}
@@ -1466,15 +1455,6 @@ framexleftmargin=13mm,
 # -*- coding: utf-8 -*-
 
 class Table(object):
-  
-  """ Une Table 0/1 sera considérée comme une liste de listes (colonnes).
-  Exemple :
-  1 1 1 0 0
-  1 0 0 0 1
-  0 0 1 1 0
-  est :
-  [[1, 1, 0], [1, 0, 0], [1, 0, 1], [0, 0, 1], [0, 1, 0]]
-  """
   
   def __init__(self, liste):
     self.donnee = liste
@@ -1520,7 +1500,386 @@ def goodListe(liste):
 
 \end{lstlisting}
 
-\section{Annexe 2}
+\section{Implémentation de l'algorithme de réordonnancement}
+
+\label{ordo}
+
+Le code source de cet algorithme est également disponible sur Github \lien{https://github.com/ismaeil/ALGO}
+
+Pour accompagner l'exécution de l'algorithme pas à pas et obtenir les résultats intermédiaire du réordonnacement, une version de l'algorithme 
+utilisant la bibliothèque curses \lien{http://docs.python.org/release/2.6/howto/curses.html} est disponible sur Github \lien{https://github.com/ismaeil/ALGO_CURSES}
+
+\textbf{Fichier $table.py$}
+\begin{lstlisting}
+#! /usr/bin/python
+# -*- coding: utf-8 -*-
+
+from utils import *
+
+def algo(T):
+    
+    L, C = [set(range(len(T[0])))], [set(range(len(T)))]
+    pos_l, pos_c = 0, 0
+    pile = [-1]
+    
+    while pile:
+        c0, c1, l0, l1 = decoupage(pos_l, pos_c, L, C, T)
+        new_pos_c, new_pos_l, L, C = maj(pos_c, pos_l, L, C, c0, c1, l0, l1)
+        if (new_pos_l == pos_l) and (pos_l + 1 >= len(L)):
+            pos_c -= 1
+            pos_l = pile.pop() + 1
+        else:
+            if (new_pos_c > pos_c):
+                pile.append(pos_c)
+                pos_c += 1
+            pos_l +=  1
+    L.reverse()
+    #
+    return goodListe(L), goodListe(C)
+  
+
+\end{lstlisting}
+
+\textbf{Fichier $ordonancement.py$}
+\begin{lstlisting}
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from utils import *
+
+class Algo(object):
+    def __init__(self, table):
+        self.table = table
+        
+        self.pivot = None
+
+    def algo(self):
+        iterator = self.algo_iter()
+        L, C = [set(range(len(self.table[0])))], [set(range(len(self.table)))]        
+        pos_l = pos_c = 0
+        
+        while True:
+            self.pivot = choixPivot(self.table, L[pos_l], C[pos_c])
+            try:
+                L, C, pos_l, pos_c = iterator.next()
+            except StopIteration:
+                break
+        L.reverse()
+        return goodListe(L), goodListe(C)
+
+    def algo_iter(self):
+        T = self.table
+        L, C = [set(range(len(T[0])))], [set(range(len(T)))]
+        
+        pos_l = pos_c = 0
+
+        pile = [-1]
+        
+        while pile:
+            pivot = self.pivot
+  
+            c0, c1, l0, l1 = decoupage(pivot, pos_l, pos_c, L, C, T)
+            new_pos_c, new_pos_l, L, C = maj(pos_c, pos_l, L, C, c0, c1, l0, l1)
+
+            if (new_pos_l == pos_l) and (pos_l + 1 >= len(L)):
+                pos_c -= 1
+                pos_l = pile.pop() + 1
+            else:
+                if (new_pos_c > pos_c):
+                    pile.append(pos_c)
+                    pos_c += 1
+                pos_l +=  1
+            
+            yield L, C, pos_l, pos_c
+
+
+def algo(T):
+    return Algo(T).algo()
+
+\end{lstlisting}
+
+\textbf{Fichier $utils.py$}
+\begin{lstlisting}
+#! /usr/bin/python
+# -*- coding: utf-8 -*-
+
+def transposeData(listedelistes):
+   
+    nbcolonnes = len(listedelistes)
+    nblignes = len(listedelistes[0]) 
+    sortie = [[] for i in range(nblignes)]
+    
+    for col in listedelistes:
+        for ligne in range(nblignes):
+            sortie[ligne].append(col[ligne])
+    return sortie
+
+
+def customap(liste):
+   
+    resultat = [ "" for i in range(len(liste))]
+    aux2 = []
+    j = 0
+    for i in range(len(liste)):
+        aux = list(liste[i])
+        for k in range(len(aux)):
+            aux2.append(j)
+            j += 1
+        resultat[i] = set(aux2)
+        aux2 = []
+    return resultat
+  
+
+def reorderTab(table):
+    
+    nombre_colonnes = len(table)
+    nombre_lignes = len(table[0])
+    LL = [set(range(1, nombre_colonnes + 1))]
+    liste_aux = range(1, nombre_lignes + 1)
+    liste_aux.reverse()
+    for i in liste_aux:
+        L = []
+        for A in LL:
+          E0 = set()
+          E1 = set()
+          for j in list(A):
+              if table[j - 1][i - 1] == 0:
+                  E0 = E0 | set([j])
+              else:
+                  E1 = E1 | set([j])
+          L.append(E0)
+          L.append(E1)
+        LL = L
+    liste_ordre = goodListe(L)
+    aux = []
+    for i in liste_ordre:
+        aux.append(i - 1)
+    resultat = nouvelOrdre(table, aux)
+    return resultat
+
+
+def goodListe(liste):
+    
+    sortie = []
+    for u in liste:
+        sortie.extend(u)
+    return sortie
+
+
+def reorderLC(table, ordrel, ordrec):
+    
+    sortie =[[] for i in ordrec]
+    for c in range(len(ordrec)):
+        for l in range(len(ordrel)):
+            sortie[c].append(table[ordrec[c]][ordrel[l]])
+    return sortie
+
+def choixPivot(table, ensemble_ligne, ensemble_colonne):
+    
+    resultat = -1
+    somme = 0
+    for k in ensemble_ligne:
+        aux = sum(table[i][k] for i in ensemble_colonne)
+        if aux >= somme:
+            somme = aux
+            resultat = k
+    colonnes_elues = set([j for j in ensemble_colonne if table[j][resultat] == 1])
+    return resultat, colonnes_elues
+ 
+ 
+def entasserLigne(table, ligne, colonnes_autorisees):
+   
+    zero, un = [], []
+    for i in colonnes_autorisees:
+        if table[i][ligne] == 0:
+            zero.append(i)
+        else:
+            un.append(i)
+    nouvel_ordre_colonnes_autorisees = [set(zero), set(un)] # il peut y avir des ensembles vides
+    
+    return nouvel_ordre_colonnes_autorisees
+ 
+ 
+def decoupage(indice_ligne, indice_colonne, L, C, T):
+    
+    pivot, c1 = choixPivot(T, L[indice_ligne], C[indice_colonne])
+    c0 = C[indice_colonne] - c1
+    l1, l0 = [], []
+    aux = 0
+    for i in L[indice_ligne]:
+        for j in c1:
+            aux += T[j][i]
+          
+        if aux == len(c1):
+            l1.append(i)
+            aux = 0
+        else:
+            l0.append(i)
+            aux = 0
+    
+    l1, l0 = set(l1), set(l0)
+    return c0, c1, l0, l1
+  
+ 
+def maj(pos_c, pos_l, L, C, c0, c1, l0, l1):
+    
+    if (c0 != set([]) and c1 != set([])):
+        C = C[:pos_c] + [c0, c1] + C[pos_c + 1:]
+        new_pos_c = pos_c + 1
+    else:
+        new_pos_c = pos_c
+      
+    if (l0 != set([]) and l1 != set([])):
+        L = L[:pos_l] + [l1, l0] + L[pos_l + 1:]
+        new_pos_l = pos_l + 1
+    else:
+        new_pos_l = pos_l
+    
+    return new_pos_c, new_pos_l, L, C
+
+
+def nouvelOrdre(table, liste):
+    
+    result = []
+    for i in liste:
+        result.append(table[i])
+    return result
+
+
+def colonnes_element(pivot, colonnes_autorisees, T):
+    
+    return set([j for j in colonnes_autorisees if T[j][pivot] == 1])
+
+\end{lstlisting}
+
+\textbf{Fichier $import\_export.py$}
+\begin{lstlisting}
+#! /usr/bin/python
+# -*- coding: utf-8 -*-
+
+from utils import *
+from table import *
+import random
+
+def imporTable(fichier):
+      
+    sortie = [[int(x) for x in ligne.split()] for ligne in fichier]
+    return transposeData(sortie)
+  
+  
+def imporTable_generique(fichier, label_lignes=False, label_colonnes=False):
+    
+    if label_colonnes:
+        label_table_colonnes = fichier.readline().split()
+      
+    sortie = []
+    label_table_lignes = []
+    for ligne in fichier:
+        elems = ligne.split()
+        if label_lignes:
+            label_table_lignes.append(elems.pop(0))
+        else:
+            label_table_lignes.append("")
+        
+        sortie.append([int(x) for x in elems])
+  
+    if not label_colonnes:
+        label_table_colonnes = ["" for x in sortie[0]]
+      
+    return transposeData(sortie), label_table_lignes, label_table_colonnes
+
+
+def tabletoliststr(table):
+    
+    sortie = []
+    nbligne = len(table[0])
+    nbcol = len(table)
+    
+    aux = ""
+    for i in range(nbligne):
+        for j in range(nbcol - 1):
+            aux += str(table[j][i]) + " "
+        aux += str(table[nbcol - 1][i])
+        sortie.append(aux)
+        aux = ""
+    return sortie
+
+
+def tabletostr(table, label_ligne, label_colonne, ordre_ligne, ordre_colonne):
+    
+    label_l = [label_ligne[i] for i in goodListe(ordre_ligne)]
+    label_c = [label_colonne[i] for i in goodListe(ordre_colonne)]
+    ordre_l = customap(ordre_ligne)
+    ordre_c = customap(ordre_colonne)
+    t = reorderLC(table, goodListe(ordre_ligne), goodListe(ordre_colonne))
+    
+    nb_ligne = len(label_l) + 1
+    
+     indice_separation_colonnes = []
+    for ens in ordre_c[:-1]:
+        indice_separation_colonnes.append(list(ens).pop())
+      
+    indice_separation_lignes = []
+    for ens in ordre_l[:-1]:
+        indice_separation_lignes.append(list(ens).pop())
+      
+    sortie = " " * nb_ligne
+    for j, y in enumerate(label_c):
+        sortie += y + " "
+        if set(label_c) != set([""]):
+            if j in indice_separation_colonnes:
+                  sortie += "| "
+                  
+    sortie += "\n"
+    
+    for i, x in enumerate(label_l):
+        sortie += x.ljust(nb_ligne)
+        nb_cols = len(x.ljust(nb_ligne))
+        for j, y in enumerate(label_c):
+            sortie += str(t[j][i]).center(len(y)) + " "
+            nb_cols += len(str(t[j][i]).center(len(y)) + " ")
+            if j in indice_separation_colonnes:
+                sortie += "| "
+                nb_cols += 2
+        if i in indice_separation_lignes:
+            sortie += "\n" + ("-" * nb_cols)
+        sortie += "\n"
+      
+    return sortie
+  
+
+def creerTable(nb_l, nb_c):
+
+    listecolonnes = [[] for j in range(nb_c)]
+    for j in range(nb_c):
+        for i in range(nb_l):
+            listecolonnes[j].append(random.randint(0, 1))
+      
+    return listecolonnes
+
+\end{lstlisting}
+
+\chapter{Conclusion et perspectives}
+
+\label{sccl}
+
+Nous avons caractérisé de manière locale les tables 0/1 dont le treillis associé est démontable grâce à la configuration $\Gamma$.
+Cette caractérisation locale induit une propriété globale~: la non existence de couronnes dans le treillis associé.
+La correspondance entre treillis démontables et systèmes de classes démontables et les résultats connus entre ces deux structures sont 
+étendus à la structure de table correspondante.
+
+Il nous reste à implémenter l'algorithme de la proposition~\ref{tabletreillis2} et la représenta\-tion graphique adaptée.
+
+La problématique de reconnaissance d'ordonnabilité sur les tables démonta\-bles reste un champ à explorer. Même si on sait que les treillis démonta\-bles sont en bijection avec les graphes 
+fortement cordés (\cite{crow_free}) -- et donc qu'il suffit de vérifier que le graphe associé à la table 0/1 est fortement cordé pour savoir si le treillis associé 
+est démontable, d'où la table est ordonnable -- on se demande s'il n'y aurait pas une méthode de reconnaissance de démontabilité directement sur les tables, 
+sans passer par le treillis associé ?
+
+Enfin, on a vu (section~\ref{sens1}) par un exemple comment le simple remplacement d'un 0 par un 1 peut influencer l'ordonnabilité d'une table 0/1. On se demande alors 
+si cette légère perturbation du système nous permettrait de trouver de nouvelles interprétations et rapprochements/séparations entre les individus. Plus fondamentalement, quel est le
+ nombre minimal des 1 à ajouter ? Quelle est la complexité de ce problème ? Et dans le cas (fort probable) où il serait NP-difficile, existe t-il des heuristiques efficaces pour le résoudre ?  
+
+
 \bibliographystyle{plain}
 
 \begin{thebibliography}{9}
