@@ -1407,14 +1407,34 @@ $a_m$ & \textbf{*} & \textbf{*} & $\hdots$ & \textbf{*} & \textbf{*}
 \end{table}
 
 \section{Algorithme de réordonnancement}
+
+\label{algor}
  
 La proposition \ref{tabletreillis2} donne déjà un algorithme d'ordonnancement d'une table 0/1 ordonnable en supposant la connaissance de l'ordre de démontabilité
- des feuilles du treilllis associé à cette table. Dans cette section on présente un algorithme plus générique, qui pour une table ordonnable réussit son ordonnacement et 
+ des feuilles du treilllis associé à cette table. Dans cette section on présente un algorithme plus générique qui, pour une table ordonnable réussit son ordonnacement et 
 le nouvel ordre sur les lignes de la table constitue un ordre de démontabilité.
 
-la complexité de cet algorithme est
 
-Cet algorithme est implémenté en python dans le chapitre \ref{implement} section \ref{ordo}
+On décrit le fonctionnement de cet algorithme avant de présenter son impléme\-ntation en python dans le chapitre \ref{implement} section \ref{ordo}
+
+
+\begin{itemize}
+
+ \item Dans chaque étape de l'algorithme, on choisi une ligne-pivot parmi les lignes autorisées si elle est maximale (c'est-à-dire si l'ensemble de ses attributs 
+est maximal au sens de l'inclusion). Cette ligne-pivot est alors déplacée en bas du tableau et les colonnes de la table qui font partie des colonnes autorisées 
+sont réordonnées de façon à avoir les 1 de cet individu à droite et ses 0 à gauche.
+
+ \item Les lignes autorisées au départ sont toutes les lignes, et les lignes autorisées à une étape intermédiaire sont les lignes maximales qui n'ont jamais encore été élue
+ en tant que pivot.
+
+ \item Les colonnes autorisées au départ sont toutes les colonnes, et les colonnes autorisées à une étape intermédiaire sont les attributs (les cases marquées de 1) 
+de la dernière ligne-pivot choisie.
+
+ \item Une fois le parcourt montant des lignes a été effectué, l'étape de descente de l'algorithme commence pour traiter les blocs non scindés par l'étape montante 
+. Ce dernier traitement se fait de droite à gauche et de bas en haut jusqu'à ce que tous les blocs soient traités.
+\end{itemize}
+
+Cet algorithme est implémenté de manière interactive en python dans le chapitre \ref{implement} section \ref{ordo}
 
 \chapter{Implémentations}
 \label{implement}
@@ -1868,12 +1888,9 @@ Cette caractérisation locale induit une propriété globale~: la non existence 
 La correspondance entre treillis démontables et systèmes de classes démontables et les résultats connus entre ces deux structures sont 
 étendus à la structure de table correspondante.
 
-Il nous reste à implémenter l'algorithme de la proposition~\ref{tabletreillis2} et la représenta\-tion graphique adaptée.
-
-La problématique de reconnaissance d'ordonnabilité sur les tables démonta\-bles reste un champ à explorer. Même si on sait que les treillis démonta\-bles sont en bijection avec les graphes 
-fortement cordés (\cite{crow_free}) -- et donc qu'il suffit de vérifier que le graphe associé à la table 0/1 est fortement cordé pour savoir si le treillis associé 
-est démontable, d'où la table est ordonnable -- on se demande s'il n'y aurait pas une méthode de reconnaissance de démontabilité directement sur les tables, 
-sans passer par le treillis associé ?
+La question de reconnaissance d'ordonnabilité sur les tables démonta\-bles est résolue par l'algorithme d'ordonnancement proposé dans la section \ref{algor}. 
+On peut directement ordonner une table ordonnable grâce à cet algorithme. De plus l'ordre finale sur les lignes de la table donne un ordre de démontabilité 
+sur les le treillis associé à la table.
 
 Enfin, on a vu (section~\ref{sens1}) par un exemple comment le simple remplacement d'un 0 par un 1 peut influencer l'ordonnabilité d'une table 0/1. On se demande alors 
 si cette légère perturbation du système nous permettrait de trouver de nouvelles interprétations et rapprochements/séparations entre les individus. Plus fondamentalement, quel est le
