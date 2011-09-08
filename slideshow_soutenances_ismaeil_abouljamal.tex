@@ -125,6 +125,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Contexte Général
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  \begin{frame}{Contexte Général}
+  \framesubtitle{Treillis démontable}
+	\begin{de}[Treillis démontable (Rival 1974)]
+	Un treillis $T = (E, \leq)$ est démontable s'il existe un élément doublement irréductible $x \in E$ tel que 
+	le treillis $T = (E \backslash \{x\}, \leq)$ reste démontable.
+	\end{de}
+  \end{frame}
+
   \begin{frame}{Contexte Général}
   \framesubtitle{Treillis démontable}
    \begin{figure}
@@ -134,14 +143,6 @@
 	\begin{theo}[Treillis démontable(Kelly et Rival 1974)]
 	Un treillis est démontable s'il n'a pas de couronne.
 	\end{theo}
-  \end{frame}
-
-  \begin{frame}{Contexte Général}
-  \framesubtitle{Treillis démontable}
-	\begin{de}[Treillis démontable (Rival 1974)]
-	Un treillis $T = (E, \leq)$ est démontable s'il existe un élément doublement irréductible $x \in E$ tel que 
-	le treillis $T = (E \backslash \{x\}, \leq)$ reste démontable.
-	\end{de}
   \end{frame}
 
   \begin{frame}{Contexte Général}
@@ -263,7 +264,7 @@ $x_5$ & \textbf{0} & \textbf{0} & \textbf{0} & \textbf{1} & \textbf{0}
   \end{de}
 
   \begin{de}[Table ordonnable]
-  Une Table 0/1 $T$ est \textit{ordonnable} si et seulement s'il existe une permutation $\sigma_L$ sur les lignes 
+  Une Table 0/1 $T$ est \textit{ordonnable} si et seulement s'\textbf{il existe} une permutation $\sigma_L$ sur les lignes 
   et une permutation $\sigma_C$ sur les colonnes telles que~:
   la table $T'$ définie par $T'_{(i, j)} = T_{(\sigma_L(i), \sigma_C(j))}$ pour tout $(i, j)$ entiers naturels 
   non nuls soit bien ordonnée.
@@ -574,6 +575,42 @@ $x'''_5$ & \textbf{0} & \textbf{0} & \textbf{0} & \textbf{1} & \textbf{1}
 \end{table}
   \end{frame}
 
+ \begin{frame}{Contribution}
+  \framesubtitle{Algorithme de réordonnancement}
+\begin{itemize}
+
+ \item Dans chaque étape de l'algorithme, choisir une ligne-pivot parmi les lignes autorisées si elle est maximale.
+ \item Déplacer la ligne-pivot en bas du tableau. 
+ \item Réordonner les colonnes autorisées de façon à avoir les 1 de cet individu à droite et ses 0 à gauche.
+ \item Les lignes autorisées au départ sont toutes les lignes, et les lignes autorisées à une étape intermédiaire sont les lignes maximales qui n'ont jamais encore été élue
+ en tant que pivot.
+\end{itemize}
+
+  \end{frame}
+
+ \begin{frame}{Contribution}
+  \framesubtitle{Algorithme de réordonnancement}
+\begin{itemize}
+
+ \item
+ \item
+ \item 
+ \item
+ \item Les colonnes autorisées au départ sont toutes les colonnes, et les colonnes autorisées à une étape intermédiaire sont les attributs (les cases marquées de 1) 
+de la dernière ligne-pivot choisie.
+
+ \item Une fois le parcourt montant des lignes effectué, l'étape de descente de l'algorithme commence pour traiter les blocs non scindés par l'étape montante 
+. Ce dernier traitement se fait de droite à gauche et de bas en haut jusqu'à ce que tous les blocs soient traités.
+\end{itemize}
+
+  \end{frame}
+
+ \begin{frame}{Contribution}
+  \framesubtitle{Algorithme de réordonnancement}
+
+Démonstration
+
+  \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Conclusions et Perspectives
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -582,6 +619,8 @@ $x'''_5$ & \textbf{0} & \textbf{0} & \textbf{0} & \textbf{1} & \textbf{1}
   \item Configuration $\Gamma$ pour caractériser localement les tables 0/1 ordonnables. 
   \item Configuration $\Gamma$ dans la table $\Leftrightarrow$ la non existence de couronnes dans le treillis associé.
   \item Treillis associé démontable $\Leftrightarrow$ Table associée ordonnable.
+  \item Implémentation efficace d'\textbf{un} algorithme de réordonnacement.
+  \item le réordonnancement de la table donne \textbf{un} ordre de démontabilité sur le treillis associé.
   \end{enumerate}
   \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -589,9 +628,8 @@ $x'''_5$ & \textbf{0} & \textbf{0} & \textbf{0} & \textbf{1} & \textbf{1}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \begin{frame}{Perspectives}
   \begin{enumerate}
-  \item Implémenter l'algorithme.
-  \item Statut du problème d'optimisation.
   \item Ordonner des tables non ordonnables en modifiant minimalement les classes.
+  \item Interprétation de cette modification de classes.
   \end{enumerate}
   \end{frame}
 
@@ -602,8 +640,8 @@ $x'''_5$ & \textbf{0} & \textbf{0} & \textbf{0} & \textbf{1} & \textbf{1}
 
 \begin{tabular}{lccccc}
  & $a_1$ & $a_2$ & $a_3$ & $a_4$ & $a_5$\\
-$x_1$ & \textbf{1} & \textbf{1} & \textbf{0} & \textbf{0} & \textbf{0}\\
-$x_2$ & \textbf{1} & \textbf{0} & \textbf{1} & \textbf{0} & \textbf{0}\\
+$x_1$ & \textcolor{red}{\textbf{1}} & \textcolor{red}{\textbf{1}} & \textbf{0} & \textbf{0} & \textbf{0}\\
+$x_2$ & \textcolor{red}{\textbf{1}} & \textbf{0} & \textbf{1} & \textbf{0} & \textbf{0}\\
 $x_3$ & \textbf{0} & \textbf{1} & \textbf{1} & \textbf{1} & \textbf{0}\\
 $x_4$ & \textbf{0} & \textbf{0} & \textbf{0} & \textcolor{red}{\textbf{1}} & \textcolor{red}{\textbf{1}}\\
 $x_5$ & \textbf{0} & \textbf{0} & \textbf{0} & \textcolor{red}{\textbf{1}} & \textbf{0}
@@ -638,11 +676,11 @@ $x_5$ & \textbf{0} & \textbf{0} & \textbf{0} & \textcolor{red}{\textbf{1}} & \te
 
 	\begin{tabular}{lccccc}
 	& $a'''_1$ & $a'''_2$ & $a'''_3$ & $a'''_4$ & $a'''_5$\\
-	$x'''_1$ & \textbf{1} & \textbf{1} & \textbf{0} & \textbf{0} & \textbf{0}\\
-	$x'''_2$ & \textbf{1} & \textbf{1} & \textbf{1} & \textbf{0} & \textbf{0}\\
+	$x'''_1$ & \textcolor{blue}{\textbf{1}} & \textcolor{blue}{\textbf{1}} & \textbf{0} & \textbf{0} & \textbf{0}\\
+	$x'''_2$ & \textcolor{blue}{\textbf{1}} & \textcolor{blue}{\textbf{1}} & \textbf{1} & \textbf{0} & \textbf{0}\\
 	$x'''_3$ & \textbf{0} & \textbf{1} & \textbf{1} & \textbf{1} & \textbf{0}\\
-	$x'''_4$ & \textbf{0} & \textbf{0} & \textbf{0} & \textbf{1} & \textbf{0}\\
-	$x'''_5$ & \textbf{0} & \textbf{0} & \textbf{0} & \textbf{1} & \textbf{1}
+	$x'''_4$ & \textbf{0} & \textbf{0} & \textbf{0} & \textcolor{red}{\textbf{1}} & \textbf{0}\\
+	$x'''_5$ & \textbf{0} & \textbf{0} & \textbf{0} & \textcolor{red}{\textbf{1}} & \textcolor{red}{\textbf{1}}
 	\end{tabular}
    \caption{Absence de configuration $\Gamma$}
 	\end{table}
